@@ -27,5 +27,4 @@ public class Professor extends Usuario {
 	public void setDisciplinas(List<Disciplina> disciplinas) {
 		this.disciplinas = disciplinas;
 	}
-
 }

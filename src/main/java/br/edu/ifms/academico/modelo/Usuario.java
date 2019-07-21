@@ -7,7 +7,6 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.Inheritance;
 import javax.persistence.InheritanceType;
-import javax.persistence.JoinColumn;
 import javax.persistence.OneToOne;
 
 @Entity
@@ -26,7 +25,6 @@ public abstract class Usuario {
 	private String senha;
 
 	@OneToOne(cascade = CascadeType.PERSIST)
-	@JoinColumn(name = "endereco_id")
 	private Endereco endereco;
 
 	public Usuario() {

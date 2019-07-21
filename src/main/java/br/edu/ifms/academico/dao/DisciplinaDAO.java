@@ -20,7 +20,7 @@ public class DisciplinaDAO extends DAO<Disciplina> {
 				    + "WHERE a.id = :paramId";
 
 		TypedQuery<Disciplina> typedQuery = entityManager.createQuery(sql1, Disciplina.class);
-		typedQuery.setParameter(":paramId", aluno.getId());
+		typedQuery.setParameter("paramId", aluno.getId());
 		return typedQuery.getResultList();
 	}
 }

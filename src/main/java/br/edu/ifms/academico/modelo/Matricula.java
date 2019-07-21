@@ -1,5 +1,6 @@
 package br.edu.ifms.academico.modelo;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
@@ -22,13 +23,16 @@ public class Matricula {
 	@JoinColumn(name = "aluno")
 	private Aluno aluno;
 
-	private double nota1;
-	private double nota2;
+	@Column(nullable = true)
+	private Double nota1;
+	
+	@Column(nullable = true)
+	private Double nota2;
 
 	public Matricula() {
 	}
 
-	public Matricula(Long id, Disciplina disciplina, Aluno aluno, double nota1, double nota2) {
+	public Matricula(Long id, Disciplina disciplina, Aluno aluno, Double nota1, Double nota2) {
 		super();
 		this.id = id;
 		this.disciplina = disciplina;
@@ -61,19 +65,19 @@ public class Matricula {
 		this.aluno = aluno;
 	}
 
-	public double getNota1() {
+	public Double getNota1() {
 		return nota1;
 	}
 
-	public void setNota1(double nota1) {
+	public void setNota1(Double nota1) {
 		this.nota1 = nota1;
 	}
 
-	public double getNota2() {
+	public Double getNota2() {
 		return nota2;
 	}
 
-	public void setNota2(double nota2) {
+	public void setNota2(Double nota2) {
 		this.nota2 = nota2;
 	}
 
