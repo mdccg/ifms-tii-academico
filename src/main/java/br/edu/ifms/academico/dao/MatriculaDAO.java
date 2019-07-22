@@ -24,7 +24,9 @@ public class MatriculaDAO extends DAO<Matricula> {
 		
 		try {
 			return typedQuery.getResultList();
-		
-		} catch(NoResultException noResultException) { return null; }
+
+		} catch (NoResultException noResultException) {
+			return null;
+		}
 	}
 }

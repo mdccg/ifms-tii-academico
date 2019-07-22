@@ -20,7 +20,9 @@ public class ProfessorDAO extends DAO<Professor> implements Sudo {
 		typedQuery.setParameter("paramSenha", senha);
 		try {
 			return typedQuery.getSingleResult();
-			
-		} catch(NoResultException noResultException) { return null; }
+
+		} catch (NoResultException noResultException) {
+			return null;
+		}
 	}
 }

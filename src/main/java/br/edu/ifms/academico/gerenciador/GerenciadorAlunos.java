@@ -1,14 +1,18 @@
 package br.edu.ifms.academico.gerenciador;
 
 import static br.edu.ifms.academico.main.Main.CSS;
+import static br.edu.ifms.academico.main.Main.GERENCIADOR_CSS;
 import static br.edu.ifms.academico.main.Main.HEADER;
 import static br.edu.ifms.academico.main.Main.TABELA_CSS;
 import static br.edu.ifms.academico.main.Main.input;
+import static br.edu.ifms.academico.main.Main.inputHTML;
 import static br.edu.ifms.academico.main.Main.print;
+import static br.edu.ifms.academico.main.Main.printHTML;
 
 import java.util.List;
 
 import br.edu.ifms.academico.dao.AlunoDAO;
+import br.edu.ifms.academico.dao.DAO;
 import br.edu.ifms.academico.modelo.Aluno;
 import br.edu.ifms.academico.modelo.Disciplina;
 import br.edu.ifms.academico.modelo.Endereco;
@@ -21,46 +25,13 @@ public class GerenciadorAlunos {
 	public void gerenciarAlunos() {
 		AlunoDAO alunoDAO = new AlunoDAO();
 		
-		String email = input(""
-			+ "<html>"
-			+ "<head>"
-				+ CSS
-			+ "</head>"
-			+ "<body>"
-				+ HEADER
-				+ "<h3>Endereço eletrônico:</h3>"
-			+ "</body>"
-			+ "</html>");
-	
-		String senha = input(""
-			+ "<html>"
-			+ "<head>"
-				+ CSS
-			+ "</head>"
-			+ "<body>"
-				+ HEADER
-				+ "<h3>Senha:</h3>"
-			+ "</body>"
-			+ "</html>");
+		String email = inputHTML("Endereço eletrônico do estudante:");
+		String senha = inputHTML("Senha do estudante:");
 		
 		aluno = alunoDAO.login(email, senha);
 		
 		if(aluno == null) {
-			print(""
-				+ "<html>"
-				+ "<head>"
-					+ CSS
-					+ "<style>"
-						+ "h3 {"
-							+ "color: red;"
-						+ "}"
-					+ "</style>"
-				+ "</head>"
-				+ "<body>"
-					+ HEADER
-					+ "<h3>Endereço eletrônico ou senha inválido.</h3>"
-				+ "</body>"
-				+ "</html>");
+			printHTML("Endereço eletrônico ou senha inválido.");
 			return;
 		}
 		
@@ -71,15 +42,7 @@ public class GerenciadorAlunos {
 				+ "<html>"
 				+ "<head>"
 					+ CSS
-					+ "<style>"
-						+ "h3 {"
-							+ "font-size: 16px;"
-						+ "}"
-						+ ""
-						+ "p {"
-							+ "text-align: justify;"
-						+ "}"
-					+ "</style>"
+					+ GERENCIADOR_CSS
 				+ "</head>"
 				+ "<body>"
 					+ HEADER
@@ -97,6 +60,7 @@ public class GerenciadorAlunos {
 						+ "<li>Dados Pessoais</li>"
 						+ "<li>Notas Lançadas</li>"
 						+ "<li>Boletim Escolar</li>"
+						+ "<li>Atualizar senha</li>"
 						+ "<li>Sair</li>"
 					+ "</ol>"
 				+ "</body>"
@@ -104,7 +68,7 @@ public class GerenciadorAlunos {
 			
 			switch (String.valueOf(opcao)) {
 			case "1":
-				listaDados();
+				listaDados(aluno);
 				break;
 			case "2":
 				listaNotasLancadas();
@@ -113,6 +77,9 @@ public class GerenciadorAlunos {
 				listaNotas();
 				break;
 			case "4":
+				atualizaSenha();
+				break;
+			case "5":
 				return;
 				
 			default:
@@ -121,7 +88,7 @@ public class GerenciadorAlunos {
 		}
 	}
 	
-	public void listaDados() {
+	public void listaDados(Aluno aluno) {
 		Endereco endereco = aluno.getEndereco();
 		
 		print(""
@@ -145,35 +112,35 @@ public class GerenciadorAlunos {
 						+ "<tr>"
 							+ "<td>" + aluno.getPrimeiro_nome() + " " + aluno.getUltimo_nome()
 								+ "</td>"
-							+ "<td>" + aluno.getEmail() + "</td>"
-						+ "</tr>"
-					+ "</tbody>"
-				+ "</table>"
-				+ ""
-				+ "<h3>Endereço</h3>"
-				+ ""
-				+ "<table>"
-					+ "<thead>"
-						+ "<tr>"
-							+ "<th>Rua</th>"
-							+ "<th>Número</th>"
-							+ "<th>CEP</th>"
-							+ "<th>Bairro</th>"
-							+ "<th>Cidade</th>"
-						+ "</tr>"
-					+ "</thead>"
-					+ "<tbody>"
-						+ "<tr>"
-							+ "<td>" + endereco.getRua() + "</td>"
-							+ "<td>" + endereco.getNumero() + "</td>"
-							+ "<td>" + endereco.getCep() + "</td>"
-							+ "<td>" + endereco.getBairro() + "</td>"
-							+ "<td>" + endereco.getCidade() + "</td>"
-						+ "</tr>"
-					+ "</tbody>"
-				+ "</table>"
-			+ "</body>"
-			+ "</html>");
+						+ "<td>" + aluno.getEmail() + "</td>"
+					+ "</tr>"
+				+ "</tbody>"
+			+ "</table>"
+			+ ""
+			+ "<h3>Endereço</h3>"
+			+ ""
+			+ "<table>"
+				+ "<thead>"
+					+ "<tr>"
+						+ "<th>Rua</th>"
+						+ "<th>Número</th>"
+						+ "<th>CEP</th>"
+						+ "<th>Bairro</th>"
+						+ "<th>Cidade</th>"
+					+ "</tr>"
+				+ "</thead>"
+				+ "<tbody>"
+					+ "<tr>"
+						+ "<td>" + endereco.getRua() + "</td>"
+						+ "<td>" + endereco.getNumero() + "</td>"
+						+ "<td>" + endereco.getCep() + "</td>"
+						+ "<td>" + endereco.getBairro() + "</td>"
+						+ "<td>" + endereco.getCidade() + "</td>"
+					+ "</tr>"
+				+ "</tbody>"
+			+ "</table>"
+		+ "</body>"
+		+ "</html>");
 	}
 	
 	public void listaNotasLancadas() {
@@ -192,14 +159,16 @@ public class GerenciadorAlunos {
 			boolean lancou = nota1 != null && nota2 != null;
 			
 			if(lancou) {
+				Double media = (nota1 + nota2) / 2.0;
 				table += ""
 					+ "<tr>"
 						+ "<td>" + disciplina.getNome() + "</td>"
 						+ "<td>" + (nota1 == null ? "--" : nota1.toString()) + "</td>"
 						+ "<td>" + (nota2 == null ? "--" : nota2.toString()) + "</td>"
-						+ "<td>" + ((nota1 + nota2) / 2.0) + "</td>"
+						+ "<td>" + String.format("%.2f", media) + "</td>"
 						+ "<td>" + nome_completo + "</td>"
-						+ "<td>Em curso.</td>"
+						+ "<td>" + (media >= 7.0 ? "Aprovado por nota." : "Reprovado por nota.")
+							+ "</td>"
 					+ "</tr>";
 			}
 		}
@@ -261,7 +230,7 @@ public class GerenciadorAlunos {
 					+ "<td>" + disciplina.getNome() + "</td>"
 					+ "<td>" + (nota1 == null ? "--" : nota1) + "</td>"
 					+ "<td>" + (nota2 == null ? "--" : nota2) + "</td>"
-					+ "<td>" + (lancou ? media : "--") + "</td>"
+					+ "<td>" + (lancou ? String.format("%.2f", media) : "--") + "</td>"
 					+ "<td>" + situacao + "</td>"
 				+ "</tr>";
 		}
@@ -289,6 +258,13 @@ public class GerenciadorAlunos {
 						+ table
 					+ "</tbody>"
 				+ "</table>"
-			+ "</body>");
+			+ "</body>"
+		+ "</html>");
+	}
+	
+	public void atualizaSenha() {
+		String senha = inputHTML("Nova senha:");
+		aluno.setSenha(senha);
+		new DAO<Aluno>().atualiza(aluno);
 	}
 }

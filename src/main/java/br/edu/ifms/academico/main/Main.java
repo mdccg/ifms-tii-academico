@@ -7,7 +7,6 @@ INSERT INTO alunos VALUES (2, 'matheus.gomes@estudante.ifms.edu.br', 'Matheus', 
 INSERT INTO professores VALUES (3, 'vinicius.moraes@ifms.edu.br', 'Vinicius', '0987654321', 'Moraes', 1);
 INSERT INTO disciplinas VALUES (4, 'Linguagem de Programação 3', 3);
 INSERT INTO matriculas (id, nota1, aluno, disciplina) VALUES (5, 6.75, 2, 4);
-
 */
 
 package br.edu.ifms.academico.main;
@@ -101,6 +100,26 @@ public class Main {
 			+ "text-align: left;"
 			+ "}"
 		+ "</style>";
+	
+	public static final String GERENCIADOR_CSS = ""
+		+ "<style>"
+			+ "h3 {"
+				+ "font-size: 16px;"
+			+ "}"
+			+ ""
+			+ "p {"
+				+ "text-align: justify;"
+				+ "text-indent: 16px;"
+			+ "}"
+			+ ""
+			+ ".lower-roman {"
+				+ "list-style-type: lower-roman;"
+			+ "}"
+			+ ""
+			+ ".italic {"
+				+ "font-style: italic;"
+			+ "}"
+		+ "</style>";
 
 	public static void print() {
 		JOptionPane.showMessageDialog(null, "");
@@ -128,5 +147,33 @@ public class Main {
 
 	public static String input(String message, Object initialSelectionValue) {
 		return JOptionPane.showInputDialog(new JLabel(message), initialSelectionValue);
+	}
+	
+	public static String inputHTML(String message) {
+		String html = "<html>"
+			+ "<head>"
+				+ CSS
+			+ "</head>"
+			+ "<body>"
+				+ HEADER
+				+ "<h3>" + message + "</h3>"
+			+ "</body>"
+			+ "</html>";
+		
+		return JOptionPane.showInputDialog(new JLabel(html));
+	}
+	
+	public static void printHTML(String message) {
+		String html = "<html>"
+			+ "<head>"
+				+ CSS
+			+ "</head>"
+			+ "<body>"
+				+ HEADER
+				+ "<h3>" + message + "</h3>"
+			+ "</body>"
+			+ "</html>";
+	
+		JOptionPane.showMessageDialog(null, new JLabel(html));
 	}
 }

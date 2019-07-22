@@ -12,7 +12,7 @@ public class Endereco {
 	@GeneratedValue
 	private Long id;
 	private String rua;
-	private Integer numero;
+	private String numero;
 	private String cep;
 	private String bairro;
 	private String cidade;
@@ -20,7 +20,7 @@ public class Endereco {
 	public Endereco() {
 	}
 
-	public Endereco(Long id, String rua, Integer numero, String cep, String bairro, String cidade) {
+	public Endereco(Long id, String rua, String numero, String cep, String bairro, String cidade) {
 		super();
 		this.id = id;
 		this.rua = rua;
@@ -46,11 +46,11 @@ public class Endereco {
 		this.rua = rua;
 	}
 
-	public Integer getNumero() {
+	public String getNumero() {
 		return numero;
 	}
 
-	public void setNumero(Integer numero) {
+	public void setNumero(String numero) {
 		this.numero = numero;
 	}
 
